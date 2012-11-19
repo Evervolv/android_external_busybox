@@ -38,6 +38,7 @@
 /bin/diff
 /bin/dirname
 /bin/dmesg
+/sbin/dnsd
 /bin/dos2unix
 /bin/du
 /bin/echo
@@ -141,6 +142,7 @@
 /bin/rm
 /bin/rmdir
 /sbin/rmmod
+/sbin/route
 /bin/run-parts
 /bin/rx
 /bin/sed

@@ -2,7 +2,7 @@
  * Automatically generated C config: don't edit
  * Busybox version: 1.20.2-jb
  */
-#define AUTOCONF_TIMESTAMP "2012-11-17 17:50 -0600"
+#define AUTOCONF_TIMESTAMP "2012-07-27 02:57 +0200"
 
 #define CONFIG_HAVE_DOT_CONFIG 1
 #define ENABLE_HAVE_DOT_CONFIG 1
@@ -2628,10 +2628,10 @@
 #define ENABLE_FEATURE_BRCTL_SHOW 1
 #define IF_FEATURE_BRCTL_SHOW(...) __VA_ARGS__
 #define IF_NOT_FEATURE_BRCTL_SHOW(...)
-#undef CONFIG_DNSD
-#define ENABLE_DNSD 0
-#define IF_DNSD(...)
-#define IF_NOT_DNSD(...) __VA_ARGS__
+#define CONFIG_DNSD 1
+#define ENABLE_DNSD 1
+#define IF_DNSD(...) __VA_ARGS__
+#define IF_NOT_DNSD(...)
 #undef CONFIG_ETHER_WAKE
 #define ENABLE_ETHER_WAKE 0
 #define IF_ETHER_WAKE(...)
@@ -2908,10 +2908,10 @@
 #define ENABLE_PSCAN 0
 #define IF_PSCAN(...)
 #define IF_NOT_PSCAN(...) __VA_ARGS__
-#undef CONFIG_ROUTE
-#define ENABLE_ROUTE 0
-#define IF_ROUTE(...)
-#define IF_NOT_ROUTE(...) __VA_ARGS__
+#define CONFIG_ROUTE 1
+#define ENABLE_ROUTE 1
+#define IF_ROUTE(...) __VA_ARGS__
+#define IF_NOT_ROUTE(...)
 #undef CONFIG_SLATTACH
 #define ENABLE_SLATTACH 0
 #define IF_SLATTACH(...)
