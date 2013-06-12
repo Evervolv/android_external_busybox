@@ -47,6 +47,7 @@
 /bin/fold
 /bin/free
 /sbin/freeramdisk
+/sbin/fstrim
 /bin/fuser
 /bin/getopt
 /bin/grep
@@ -60,7 +61,7 @@
 /bin/install
 /bin/kill
 /bin/killall
-/bin/killall5
+/sbin/killall5
 /bin/length
 /bin/less
 /bin/ln
