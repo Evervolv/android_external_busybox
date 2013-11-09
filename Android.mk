@@ -25,6 +25,14 @@ include $(BUILD_STATIC_LIBRARY)
 LOCAL_PATH := $(BB_PATH)
 include $(CLEAR_VARS)
 
+# Explicitly set an architecture specific CONFIG_CROSS_COMPILER_PREFIX
+ifeq ($(TARGET_ARCH),arm)
+	BUSYBOX_CROSS_COMPILER_PREFIX := "arm-eabi-"
+endif
+ifeq ($(TARGET_ARCH),x86)
+	BUSYBOX_CROSS_COMPILER_PREFIX := "i686-linux-android-"
+endif
+
 # Each profile require a compressed usage/config, outside the source tree for git history
 # We keep the uncompressed headers in local include-<profile> to track config changes.
 # TODO: generate includes in out/
@@ -35,6 +43,7 @@ include $(CLEAR_VARS)
 
 # Execute make clean, make prepare and copy profiles required for normal & static lib (recovery)
 
+
 KERNEL_MODULES_DIR ?= /system/lib/modules
 BUSYBOX_CONFIG := minimal full
 $(BUSYBOX_CONFIG):
@@ -42,6 +51,7 @@ $(BUSYBOX_CONFIG):
 	@cd $(BB_PATH) && make clean
 	@cd $(BB_PATH) && git clean -f -- ./include-$@/
 	cp $(BB_PATH)/.config-$@ $(BB_PATH)/.config
+	echo "CONFIG_CROSS_COMPILER_PREFIX=\"$(BUSYBOX_CROSS_COMPILER_PREFIX)\"" >> $(BB_PATH)/.config
 	cd $(BB_PATH) && make prepare
 	@#cp $(BB_PATH)/.config $(BB_PATH)/.config-$@
 	@mkdir -p $(BB_PATH)/include-$@
@@ -74,6 +84,16 @@ ifeq ($(TARGET_ARCH),arm)
 	android/libc/arch-arm/syscalls/swapon.S \
 	android/libc/arch-arm/syscalls/swapoff.S \
 	android/libc/arch-arm/syscalls/sysinfo.S
+endif
+
+ifeq ($(TARGET_ARCH),x86)
+	BUSYBOX_SRC_FILES += \
+	android/libc/arch-x86/syscalls/adjtimex.S \
+	android/libc/arch-x86/syscalls/getsid.S \
+	android/libc/arch-x86/syscalls/stime.S \
+	android/libc/arch-x86/syscalls/swapon.S \
+	android/libc/arch-x86/syscalls/swapoff.S \
+	android/libc/arch-x86/syscalls/sysinfo.S
 endif
 
 ifeq ($(TARGET_ARCH),mips)
@@ -146,6 +166,7 @@ LOCAL_SRC_FILES += android/libc/__set_errno.c
 endif
 LOCAL_C_INCLUDES := $(BUSYBOX_C_INCLUDES)
 LOCAL_CFLAGS := $(BUSYBOX_CFLAGS)
+LOCAL_LDFLAGS += -Wl,--no-fatal-warnings
 LOCAL_MODULE := busybox
 LOCAL_MODULE_TAGS := eng debug
 LOCAL_MODULE_PATH := $(TARGET_OUT_OPTIONAL_EXECUTABLES)
@@ -193,6 +214,7 @@ LOCAL_CFLAGS += \
   -Dgetmntent=busybox_getmntent \
   -Dgetmntent_r=busybox_getmntent_r \
   -Dgenerate_uuid=busybox_generate_uuid
+LOCAL_LDFLAGS += -Wl,--no-fatal-warnings
 LOCAL_FORCE_STATIC_EXECUTABLE := true
 LOCAL_MODULE := static_busybox
 LOCAL_MODULE_STEM := busybox
